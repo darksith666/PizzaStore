@@ -8,5 +8,6 @@
 
 import Foundation
 
-println("Hello, World!")
+var store: PizzaStore = PizzaStore()
+var pizza: Pizza = store.orderPizza("野菜")
 
