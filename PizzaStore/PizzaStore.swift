@@ -8,17 +8,18 @@
 
 import Foundation
 
-/// ピザ屋さん
+/// ピザ屋さんの抽象クラス
 class PizzaStore {
-  private var factory: SimplePizzaFactory
 
   /**
-  コンストラクタ
+  （抽象クラス）コンストラクタ
   
-  :returns: ピザ屋さん
+  :returns: （抽象クラス）ピザ屋さん
   */
   init() {
-    self.factory = SimplePizzaFactory()
+    if (self.dynamicType === PizzaStore.self) {
+      fatalError("Abstract Class")
+    }
   }
   
   /**
@@ -27,12 +28,55 @@ class PizzaStore {
   :param: type ピザの種類
   */
   func orderPizza(type: String) -> Pizza {
-    var pizza: Pizza = self.factory.createPizza(type)
+    var pizza: Pizza = self.createPizza(type)
     
     pizza.prepare()
     pizza.bake()
     pizza.cut()
     pizza.box()
+    
+    return pizza
+  }
+  
+  /**
+  （抽象クラス）ピザを作成します。
+  
+  :param: type ピザの種類
+  
+  :returns: ピザ
+  */
+  private func createPizza(type: String) -> Pizza {
+    fatalError("Abstract Class")
+  }
+}
+
+/// ニューヨークスタイルのピザ屋さん
+class NYPizzaStore: PizzaStore {
+  override private func createPizza(type: String) -> Pizza {
+    var pizza: Pizza
+  
+    switch type {
+    case "チーズ":
+      pizza = NYStyleCheesePizza()
+    default:
+      fatalError(type + "はお取り扱いしておりません。")
+    }
+  
+    return pizza
+  }
+}
+
+/// シカゴスタイルのピザ屋さん
+class ChicagoPizzaStore: PizzaStore {
+  override private func createPizza(type: String) -> Pizza {
+    var pizza: Pizza
+    
+    switch type {
+    case "チーズ":
+      pizza = ChicagoStypeCheedOPizza()
+    default:
+      fatalError(type + "はお取り扱いしておりません。")
+    }
     
     return pizza
   }
