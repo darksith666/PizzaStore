@@ -11,54 +11,98 @@ import Foundation
 /// ピザの抽象クラス
 class Pizza {
   
-  /// ピザの種類
-  var type: String
+  /// 名前
+  private(set) var name: String
+  
+  /// 生地の種類
+  private var dough: String
+  
+  /// ソースの種類
+  private var sauce: String
+  
+  /// トッピング
+  private var toppings: [String]
   
   /**
   コンストラクタ
   
   :returns: ピザ
   */
-  init(type: String) {
-    self.type = type
+  init() {
+    self.name = ""
+    self.dough = ""
+    self.sauce = ""
+    self.toppings = []
+    
+    if (self.dynamicType === PizzaStore.self) {
+      fatalError("Abstract Class")
+    }
   }
   
   /**
-  下ごしらえをします。
+  下処理をします。
   */
   func prepare() {
-    println(self.type + "ピザの下ごしらえをします。")
+    println(self.name + "を下処理")
+    println("生地をこねる……")
+    println("ソースを追加……")
+    println("トッピングを追加：")
+    for t in self.toppings {
+      println("  " + t)
+    }
   }
   
   /**
   焼きます。
   */
   func bake() {
-    println(self.type + "ピザを焼きます。")
+    println("350度で25分焼く")
   }
   
   /**
-  切ります。
+  切り分けます。
   */
   func cut() {
-    println(self.type + "ピザを切ります。")
+    println("ピザを扇型に切り分ける")
   }
   
   /**
-  箱詰めします。
+  箱に入れます。
   */
   func box() {
-    println(self.type + "ピザを箱詰めします。")
+    println("PizzaStoreの正式な箱にピザを入れる")
   }
-
 }
 
-/// チーズピザ
-class CheesePizza : Pizza {
+/// ニューヨークスタイルのチーズピザ
+class NYStyleCheesePizza : Pizza {
+  override init() {
+    super.init()
+    
+    super.name = "ニューヨークスタイルのソース&チーズピザ"
+    super.dough = "薄いクラスト生地"
+    super.sauce = "マリナラソース"
+    
+    super.toppings = ["粉レッジャーノチーズ"]
+  }
   
+  /**
+  切り分けます
+  */
+  override func cut() {
+    println("ピザを四角形に切り分ける")
+  }
 }
 
-/// 野菜ピザ
-class VeggiePizza: Pizza {
-  
+/// シカゴスタイルのチーズピザ
+class ChicagoStypeCheedOPizza: Pizza {
+  override init() {
+    super.init()
+    
+    super.name = "シカゴスタイルのディープディッシュチーズピザ"
+    super.dough = "極厚クラスト処理"
+    super.sauce = "プラムトマトソース"
+    
+    super.toppings = ["刻んだモツァレラチーズ"]
+  }
 }
